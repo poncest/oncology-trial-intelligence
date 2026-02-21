@@ -1,0 +1,4 @@
+Type: shiny
+Title: Oncology Competitive Trial Intelligence Dashboard
+Imports: shiny, shiny.semantic, waiter, shinyjs, htmltools, dplyr, tidyr, purrr, stringr, lubridate, forcats, httr2, jsonlite, ggplot2, ggiraph, scales, patchwork, reactable, reactablefmtr, leaflet, leaflet.extras, here, glue, janitor
+

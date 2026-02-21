@@ -1,0 +1,30 @@
+# =============================================================================
+# refresh_cache.yml — Daily cache refresh via GitHub Actions
+# =============================================================================
+name: Refresh ClinicalTrials Cache
+
+on:
+  schedule:
+    - cron: "0 2 * * *"   # 02:00 UTC daily
+  workflow_dispatch:        # Manual trigger for testing
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - name: Install dependencies
+        run: Rscript -e "install.packages(c('httr2', 'dplyr', 'jsonlite', 'purrr', 'stringr'))"
+      - name: Build cache
+        run: Rscript data-pipeline/refresh_cache.R
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: cache-latest
+          files: |
+            app/data/processed/cache_trials_overview.rds
+            app/data/processed/cache_meta.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

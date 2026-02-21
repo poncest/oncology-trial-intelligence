@@ -1,0 +1,13 @@
+# Deployment exclusions — never deploy these to shinyapps.io
+renv/library/
+renv/staging/
+renv/python/
+.Rprofile
+.Rhistory
+.RData
+rsconnect/
+*.qmd
+*.Rmd
+LESSONS_LEARNED.md
+HANDOFF_DOCUMENT.md
+
