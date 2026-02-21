@@ -1,0 +1,11 @@
+{
+  "last_updated": "2026-02-21",
+  "api_version": "v2",
+  "oncology_trial_count": 1934,
+  "rare_disease_count": 176,
+  "total_trial_count": 2110,
+  "statuses": ["RECRUITING", "ACTIVE_NOT_RECRUITING"],
+  "phases": ["PHASE2_PHASE3", "PHASE3"],
+  "endpoint_coverage_pct": 95.8,
+  "notes": "Endpoint text available for 95.8% of Phase 3 oncology trials (766 trials sampled). Free-text field — basic normalization applied (tolower + trimws + grepl). ~4% missing endpoint text; adjacent-TA trials possible due to broad keyword query. COMPLETED trials excluded from default cache; available via live drill-down."
+}
