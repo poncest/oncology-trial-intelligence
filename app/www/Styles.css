@@ -1,0 +1,24 @@
+/* =============================================================================
+   OCTID — Custom Styles
+   Supplements shiny.semantic defaults
+   ============================================================================= */
+
+/* Smooth tab transitions */
+.ui.tab.segment {
+  animation: fadeIn 0.15s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Reactable table header consistency */
+.rt-thead {
+  border-bottom: 2px solid #0077B6;
+}
+
+/* ggiraph SVG container */
+.girafe_container_std {
+  width: 100% !important;
+}
