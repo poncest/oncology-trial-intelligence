@@ -20,40 +20,50 @@ ui <- semanticPage(
       .octid-header {{
         background: {octid_colors$primary_dark};
         color: white;
-        padding: 0.8em 1.5em;
+        padding: 1em 1.8em;
         margin-bottom: 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
       }}
       .octid-title {{
-        font-size: 1.3em;
-        font-weight: 700;
-        letter-spacing: 0.03em;
+        font-size: 1.7em;
+        font-weight: 800;
+        letter-spacing: 0.04em;
       }}
       .octid-subtitle {{
-        font-size: 0.85em;
-        opacity: 0.8;
-        margin-left: 0.8em;
+        font-size: 1em;
+        opacity: 0.85;
+        margin-left: 1em;
+        font-weight: 400;
       }}
       .octid-version {{
-        font-size: 0.75em;
-        opacity: 0.6;
+        font-size: 0.78em;
+        opacity: 0.65;
       }}
       .ui.tabular.menu .active.item {{
-        border-top: 3px solid {octid_colors$primary} !important;
+        border-top: 4px solid {octid_colors$primary} !important;
         color: {octid_colors$primary_dark} !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
+        font-size: 1em !important;
+        background: {octid_colors$bg_light_blue} !important;
       }}
       .ui.tabular.menu .item {{
-        color: {octid_colors$text_gray};
-        font-size: 0.92em;
+        color: {octid_colors$text_dark};
+        font-size: 0.97em;
+        font-weight: 500;
+        padding: 1em 1.3em !important;
+      }}
+      .ui.tabular.menu .item:hover {{
+        color: {octid_colors$primary} !important;
+        background: {octid_colors$bg_light_gray} !important;
       }}
       .ui.tabular.menu {{
         background: white;
-        padding: 0 1em;
-        border-bottom: 1px solid {octid_colors$border};
+        padding: 0 1.2em;
+        border-bottom: 2px solid {octid_colors$border};
         margin-bottom: 0 !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.06);
       }}
       .tab-content-wrapper {{
         padding: 1.2em 1.5em;
@@ -111,13 +121,10 @@ ui <- semanticPage(
       )
   ),
   
-  # Pipeline & Endpoints (placeholder)
+  # Pipeline & Endpoints
   div(class = "ui bottom attached tab segment", `data-tab` = "pipeline-endpoints",
       div(class = "tab-content-wrapper",
-          h3(style = glue("color: {octid_colors$primary_dark};"),
-             icon("pills"), "Pipeline & Endpoints"),
-          p(style = glue("color: {octid_colors$text_gray};"),
-            "Coming in next build session.")
+          pipeline_endpoints_ui("pipeline_endpoints")
       )
   ),
   

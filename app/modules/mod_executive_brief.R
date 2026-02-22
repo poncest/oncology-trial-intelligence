@@ -209,9 +209,9 @@ executive_brief_server <- function(id, cache) {
       )) +
         ggiraph::geom_col_interactive(width = 0.65, show.legend = FALSE) +
         scale_fill_manual(values = c(
-          "Phase 3"      = octid_colors$primary,
-          "Phase 2/Phase 3" = octid_colors$accent
-        ), na.value = octid_colors$primary_light) +
+          "Phase 3"         = octid_colors$primary,
+          "Phase 2/Phase 3" = octid_colors$primary
+        ), na.value = octid_colors$primary) +
         scale_y_continuous(labels = scales::comma) +
         coord_flip() +
         labs(x = NULL, y = "Trials") +
@@ -257,11 +257,11 @@ executive_brief_server <- function(id, cache) {
       
       pal <- c(
         "Industry"           = octid_colors$primary,
-        "Academic / Other"   = octid_colors$accent,
-        "Research Network"   = "#0096C7",
-        "NIH"                = "#00B4D8",
-        "Other Government"   = octid_colors$primary_light,
-        "Unknown"            = octid_colors$text_light
+        "Academic / Other"   = octid_colors$primary,
+        "Research Network"   = octid_colors$primary,
+        "NIH"                = octid_colors$primary,
+        "Other Government"   = octid_colors$primary,
+        "Unknown"            = octid_colors$primary
       )
       
       p <- ggplot(df, aes(
