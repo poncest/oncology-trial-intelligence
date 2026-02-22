@@ -128,13 +128,10 @@ ui <- semanticPage(
       )
   ),
   
-  # Sponsor Activity (placeholder)
+  # Sponsor Activity
   div(class = "ui bottom attached tab segment", `data-tab` = "sponsor-activity",
       div(class = "tab-content-wrapper",
-          h3(style = glue("color: {octid_colors$primary_dark};"),
-             icon("building"), "Sponsor Activity"),
-          p(style = glue("color: {octid_colors$text_gray};"),
-            "Coming in next build session.")
+          sponsor_activity_ui("sponsor_activity")
       )
   ),
   
