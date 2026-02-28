@@ -135,13 +135,10 @@ ui <- semanticPage(
       )
   ),
   
-  # Site & Investigator Networks (placeholder)
+  # Site & Investigator Networks 
   div(class = "ui bottom attached tab segment", `data-tab` = "site-networks",
       div(class = "tab-content-wrapper",
-          h3(style = glue("color: {octid_colors$primary_dark};"),
-             icon("map marker alternate"), "Site & Investigator Networks"),
-          p(style = glue("color: {octid_colors$text_gray};"),
-            "Coming in next build session.")
+          site_networks_ui("site_networks")
       )
   ),
   
