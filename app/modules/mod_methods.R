@@ -147,6 +147,14 @@ methods_ui <- function(id) {
               "The dashboard surfaces structural patterns — sponsor concentration, endpoint frequency, ",
               "geographic footprint — from a curated snapshot of active Phase 2/3 and Phase 3 trials. ",
               "It is intended as a starting point for deeper investigation, not a definitive source."
+            ),
+            p(
+              tags$b("Rare Disease inclusion: "),
+              "176 rare disease trials are included as a sensitivity lens to assess whether ",
+              "benchmark patterns shift under low-prevalence enrollment dynamics. ",
+              "Rare Disease and Oncology data are segmented throughout the dashboard. ",
+              "Patterns observed in the combined view should be interpreted in the context ",
+              "of this composition."
             )
           )
         ),
@@ -308,6 +316,18 @@ methods_ui <- function(id) {
               "Endpoint counts are approximate. Two trials measuring the same endpoint ",
               "using different phrasing may be counted separately. Users should treat ",
               "endpoint frequency as a directional signal, not a precise audit."
+            ),
+            div(
+              style = paste0(
+                "padding: 0.8em 1em; border-radius: 4px; margin-top: 0.6em; ",
+                "background: #FFF4CE; border-left: 3px solid #CA5010; ",
+                "font-size: 0.88em; color: #323130;"
+              ),
+              tags$b("Clinical Note: "),
+              "Endpoint mapping does not capture nuanced composite endpoint definitions, ",
+              "hierarchical testing strategies, or endpoint modifications filed in protocol amendments. ",
+              "Senior clinical reviewers should verify endpoint classification against primary ",
+              "protocol documents before drawing regulatory or design conclusions."
             )
           )
         )

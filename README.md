@@ -13,6 +13,11 @@
 OCTID provides situational awareness of the oncology clinical trial landscape using
 public ClinicalTrials.gov data. It is a benchmarking tool, not a forecasting engine.
 
+This tool supports oncology portfolio design discussions by surfacing comparative
+trial design patterns across sponsors and phases — connecting landscape data to
+decision moments before portfolio reviews, launch strategy meetings, and business
+development conversations.
+
 **What it answers:**
 - Where is trial activity concentrating by phase and modality?
 - How do primary endpoints differ across sponsors?

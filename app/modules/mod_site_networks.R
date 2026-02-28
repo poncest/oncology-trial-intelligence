@@ -138,7 +138,17 @@ site_networks_ui <- function(id) {
               h3(style = paste0("color: ", octid_colors$primary_dark, "; margin: 0;"),
                  "Trial Activity by Country"),
               div(style = "color: #605E5C; font-size: 0.9em;",
-                  "Bubble size = trial count · click a bubble for details")
+                  "Bubble size = trial count · click a bubble for details"),
+              div(
+                style = paste0(
+                  "margin-top: 0.6em; padding: 0.5em 0.8em; border-radius: 4px; ",
+                  "background: #FFF4CE; border-left: 3px solid #CA5010; ",
+                  "font-size: 0.82em; color: #605E5C;"
+                ),
+                icon("exclamation triangle", style = "color: #CA5010;"),
+                " Registry site counts reflect trial registration data, not enrollment intensity. ",
+                "Number of sites does not indicate enrollment success or site activation rates."
+              )
             )
           ),
           leafletOutput(ns("country_map"), height = "420px")
