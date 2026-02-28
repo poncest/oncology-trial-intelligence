@@ -18,6 +18,6 @@ server <- function(input, output, session) {
   pipeline_endpoints_server("pipeline_endpoints", cache = app_cache)
   sponsor_activity_server("sponsor_activity",     cache = app_cache)
   site_networks_server("site_networks",           cache = app_cache)
-  # methods_server("methods")
+  methods_server("methods")
   
 }

@@ -145,10 +145,7 @@ ui <- semanticPage(
   # Methods & Governance (placeholder)
   div(class = "ui bottom attached tab segment", `data-tab` = "methods",
       div(class = "tab-content-wrapper",
-          h3(style = glue("color: {octid_colors$primary_dark};"),
-             icon("info circle"), "Methods & Governance"),
-          p(style = glue("color: {octid_colors$text_gray};"),
-            "Coming in next build session.")
+          methods_ui("methods")
       )
   ),
   
