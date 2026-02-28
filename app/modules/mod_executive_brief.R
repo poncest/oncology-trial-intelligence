@@ -86,6 +86,64 @@ executive_brief_ui <- function(id) {
             )
         ),
         
+        # --- Implications for Portfolio Review ---------------------------------
+        div(
+          class = "ui segment",
+          style = paste0(
+            "margin-bottom: 1.5em; padding: 1.2em 1.5em; ",
+            "border-left: 4px solid ", octid_colors$primary, "; ",
+            "background: ", octid_colors$bg_light_blue, ";"
+          ),
+          div(
+            style = "display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.8em;",
+            icon("lightbulb", style = paste0("color: ", octid_colors$primary, ";")),
+            h4(style = paste0("color: ", octid_colors$primary_dark, "; margin: 0; font-size: 1em;"),
+               "Implications for Portfolio Review")
+          ),
+          div(
+            class = "ui three column stackable grid",
+            style = "margin: 0;",
+            div(
+              class = "column",
+              div(
+                style = "font-size: 0.88em; color: #323130; line-height: 1.6;",
+                tags$b(style = paste0("color: ", octid_colors$primary_dark, ";"),
+                       "Endpoint Patterns"),
+                tags$br(),
+                "Divergence from phase- or modality-specific endpoint norms may indicate ",
+                "differentiated regulatory strategy or unmet need targeting."
+              )
+            ),
+            div(
+              class = "column",
+              div(
+                style = "font-size: 0.88em; color: #323130; line-height: 1.6;",
+                tags$b(style = paste0("color: ", octid_colors$primary_dark, ";"),
+                       "Sponsor Acceleration"),
+                tags$br(),
+                "Rapid expansion in a sponsor's active trial count may signal competitive ",
+                "inflection — particularly if concentrated in late-phase oncology."
+              )
+            ),
+            div(
+              class = "column",
+              div(
+                style = "font-size: 0.88em; color: #323130; line-height: 1.6;",
+                tags$b(style = paste0("color: ", octid_colors$primary_dark, ";"),
+                       "Phase Concentration"),
+                tags$br(),
+                "Shifts in Phase 3 concentration across modalities may reflect ",
+                "evolving risk appetite or near-term approval pipeline density."
+              )
+            )
+          ),
+          div(
+            style = "margin-top: 0.8em; font-size: 0.8em; color: #605E5C; font-style: italic;",
+            "These are interpretive lenses, not conclusions. All findings are associative ",
+            "and should be validated against primary sources before informing portfolio decisions."
+          )
+        ),
+        
         # --- Row 3: Top indications + Rare Disease comparison tile -------------
         div(class = "ui two column stackable grid",
             

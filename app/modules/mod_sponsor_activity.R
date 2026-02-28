@@ -162,7 +162,9 @@ sponsor_activity_ui <- function(id) {
               h3(style = paste0("color: ", octid_colors$primary_dark, "; margin: 0;"),
                  "Sponsor Trial Volume"),
               div(style = "color: #605E5C; font-size: 0.9em;",
-                  "Top 20 by active trial count — click a bar to see trials")
+                  "Top 20 by active trial count — click a bar to see trials"),
+              div(style = "color: #605E5C; font-size: 0.82em; margin-top: 0.3em; font-style: italic;",
+                  "Share shown as % of trials within current filter selection")
             ),
             div(
               sliderInput(
@@ -270,7 +272,10 @@ sponsor_activity_server <- function(id, cache) {
           .groups = "drop"
         ) |>
         dplyr::arrange(dplyr::desc(n_trials)) |>
-        dplyr::mutate(rank = dplyr::row_number())
+        dplyr::mutate(
+          rank = dplyr::row_number(),
+          trial_share = round(n_trials / sum(n_trials) * 100, 1)
+        )
       
       agg
     })
@@ -343,7 +348,7 @@ sponsor_activity_server <- function(id, cache) {
           bar_color = dplyr::coalesce(class_colors[sponsor_class], octid_colors$primary),
           tooltip_text = paste0(
             "<b>", lead_sponsor, "</b><br>",
-            "Trials: ", n_trials, "<br>",
+            "Trials: ", n_trials, " (", trial_share, "% of filtered total)<br>",
             "Phase 3: ", n_phase3, " | Phase 2/3: ", n_phase23, "<br>",
             "Sponsor type: ", sponsor_class, "<br>",
             "Median enrollment: ", round(median_enrollment, 0)
@@ -582,7 +587,7 @@ sponsor_activity_server <- function(id, cache) {
       # Format for display
       ss_display <- ss |>
         dplyr::select(rank, lead_sponsor, sponsor_class, n_trials,
-                      n_phase3, n_phase23, total_enrollment) |>
+                      trial_share, n_phase3, n_phase23, total_enrollment) |>
         dplyr::mutate(
           total_enrollment = round(total_enrollment, 0)
         )
@@ -652,6 +657,14 @@ sponsor_activity_server <- function(id, cache) {
             style  = function(value) {
               list(fontWeight = "700", color = octid_colors$primary)
             }
+          ),
+          trial_share = colDef(
+            name  = "Share %",
+            width = 80,
+            cell  = function(value) {
+              paste0(value, "%")
+            },
+            style = list(color = "#605E5C", fontSize = "0.9em")
           ),
           n_phase3 = colDef(
             name  = "Phase 3",
