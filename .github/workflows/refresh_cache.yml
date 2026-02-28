@@ -11,20 +11,45 @@ on:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.3"
+          use-public-rspm: true   # Posit Public Package Manager — pre-built binaries, much faster
+
+      - name: Install pak
+        run: Rscript -e "install.packages('pak', repos = 'https://r-lib.github.io/p/pak/stable/')"
+
       - name: Install dependencies
-        run: Rscript -e "install.packages(c('httr2', 'dplyr', 'jsonlite', 'purrr', 'stringr'))"
+        run: |
+          Rscript -e "pak::pak(c('httr2', 'dplyr', 'jsonlite', 'purrr', 'stringr', 'lubridate'))"
+
+      - name: Verify httr2 installed
+        run: Rscript -e "library(httr2); cat('httr2 version:', as.character(packageVersion('httr2')), '\n')"
+
       - name: Build cache
         run: Rscript data-pipeline/refresh_cache.R
+
+      - name: Verify cache files exist
+        run: |
+          ls -lh app/data/processed/
+          test -f app/data/processed/cache_overview.rds || (echo "ERROR: cache_overview.rds not found" && exit 1)
+          test -f app/data/processed/cache_meta.json    || (echo "ERROR: cache_meta.json not found" && exit 1)
+
       - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: cache-latest
+          name: "Cache Latest"
+          body: "Auto-updated cache from ClinicalTrials.gov API v2"
           files: |
-            app/data/processed/cache_trials_overview.rds
+            app/data/processed/cache_overview.rds
             app/data/processed/cache_meta.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
