@@ -108,17 +108,7 @@ methods_ui <- function(id) {
             "is a core design principle — not an afterthought."
           )
         ),
-        div(
-          style = paste0(
-            "flex-shrink: 0; padding: 0.5em 1em; border-radius: 4px; ",
-            "background: rgba(255,255,255,0.12); font-size: 0.82em; ",
-            "color: rgba(255,255,255,0.9); text-align: center;"
-          ),
-          div(style = "font-weight: 700;", "Cache Date"),
-          div("February 21, 2026"),
-          div(style = "margin-top: 0.3em; font-weight: 700;", "Trials"),
-          div("2,110 total")
-        )
+        uiOutput(ns("header_cache_badge"))
       )
     ),
     
@@ -147,14 +137,6 @@ methods_ui <- function(id) {
               "The dashboard surfaces structural patterns — sponsor concentration, endpoint frequency, ",
               "geographic footprint — from a curated snapshot of active Phase 2/3 and Phase 3 trials. ",
               "It is intended as a starting point for deeper investigation, not a definitive source."
-            ),
-            p(
-              tags$b("Rare Disease inclusion: "),
-              "176 rare disease trials are included as a sensitivity lens to assess whether ",
-              "benchmark patterns shift under low-prevalence enrollment dynamics. ",
-              "Rare Disease and Oncology data are segmented throughout the dashboard. ",
-              "Patterns observed in the combined view should be interpreted in the context ",
-              "of this composition."
             )
           )
         ),
@@ -255,11 +237,13 @@ methods_ui <- function(id) {
           ),
           
           limitation_item(
-            "6", "Cache Freshness",
-            "All overview data reflects a point-in-time snapshot from February 21, 2026,
-            not a real-time feed. Individual trial drill-down modals fetch live data
-            from the ClinicalTrials.gov API on demand. Trial status, enrollment figures,
-            and sponsor information may have changed since the cache was captured."
+            "6", "Cache Freshness & Registry Lag",
+            "All overview data reflects a point-in-time snapshot — not a real-time feed.
+            Individual trial drill-down modals fetch live data from the ClinicalTrials.gov
+            API on demand. Trial status, enrollment figures, and sponsor information may
+            have changed since the cache was captured. Registry updates may also lag
+            sponsor operational reality; status and enrollment fields are self-reported
+            by study teams and are not independently verified."
           ),
           
           div(
@@ -316,18 +300,6 @@ methods_ui <- function(id) {
               "Endpoint counts are approximate. Two trials measuring the same endpoint ",
               "using different phrasing may be counted separately. Users should treat ",
               "endpoint frequency as a directional signal, not a precise audit."
-            ),
-            div(
-              style = paste0(
-                "padding: 0.8em 1em; border-radius: 4px; margin-top: 0.6em; ",
-                "background: #FFF4CE; border-left: 3px solid #CA5010; ",
-                "font-size: 0.88em; color: #323130;"
-              ),
-              tags$b("Clinical Note: "),
-              "Endpoint mapping does not capture nuanced composite endpoint definitions, ",
-              "hierarchical testing strategies, or endpoint modifications filed in protocol amendments. ",
-              "Senior clinical reviewers should verify endpoint classification against primary ",
-              "protocol documents before drawing regulatory or design conclusions."
             )
           )
         )
@@ -348,30 +320,8 @@ methods_ui <- function(id) {
                              "; margin-bottom: 1em; font-size: 0.95em;"),
               icon("server"), " Cache Scope"),
           
-          # Stats
-          div(
-            style = "display: grid; grid-template-columns: 1fr 1fr; gap: 0.8em; margin-bottom: 1em;",
-            
-            div(style = paste0("text-align: center; padding: 0.8em; border-radius: 4px; background: ",
-                               octid_colors$bg_light_blue, ";"),
-                div(style = paste0("font-size: 1.6em; font-weight: 700; color: ", octid_colors$primary, ";"), "2,110"),
-                div(style = "font-size: 0.78em; color: #605E5C;", "Total trials")),
-            
-            div(style = paste0("text-align: center; padding: 0.8em; border-radius: 4px; background: ",
-                               octid_colors$bg_light_blue, ";"),
-                div(style = paste0("font-size: 1.6em; font-weight: 700; color: ", octid_colors$primary, ";"), "1,934"),
-                div(style = "font-size: 0.78em; color: #605E5C;", "Oncology")),
-            
-            div(style = paste0("text-align: center; padding: 0.8em; border-radius: 4px; background: ",
-                               octid_colors$bg_light_purple, ";"),
-                div(style = paste0("font-size: 1.6em; font-weight: 700; color: ", octid_colors$rare_disease, ";"), "176"),
-                div(style = "font-size: 0.78em; color: #605E5C;", "Rare Disease")),
-            
-            div(style = paste0("text-align: center; padding: 0.8em; border-radius: 4px; background: ",
-                               octid_colors$bg_light_blue, ";"),
-                div(style = paste0("font-size: 1.6em; font-weight: 700; color: ", octid_colors$accent, ";"), "95.8%"),
-                div(style = "font-size: 0.78em; color: #605E5C;", "Endpoint coverage"))
-          ),
+          # Stats — dynamic from cache_meta
+          uiOutput(ns("cache_scope_stats")),
           
           # Scope details
           div(
@@ -481,7 +431,57 @@ methods_ui <- function(id) {
 
 methods_server <- function(id, cache) {
   moduleServer(id, function(input, output, session) {
-    # No outputs — all content is static UI defined above.
-    # Server stub retained for consistent module pattern with other tabs.
+    ns <- session$ns
+    
+    # ── Dynamic header badge ──────────────────────────────────────────────────
+    output$header_cache_badge <- renderUI({
+      div(
+        style = paste0(
+          "flex-shrink: 0; padding: 0.5em 1em; border-radius: 4px; ",
+          "background: rgba(255,255,255,0.12); font-size: 0.82em; ",
+          "color: rgba(255,255,255,0.9); text-align: center;"
+        ),
+        div(style = "font-weight: 700;", "Cache Date"),
+        div(cache_meta$last_updated),
+        div(style = "margin-top: 0.3em; font-weight: 700;", "Trials"),
+        div(scales::comma(cache_meta$total_trial_count), " total")
+      )
+    })
+    
+    # ── Dynamic sidebar stat tiles ────────────────────────────────────────────
+    output$cache_scope_stats <- renderUI({
+      div(
+        style = "display: grid; grid-template-columns: 1fr 1fr; gap: 0.8em; margin-bottom: 1em;",
+        
+        div(style = paste0("text-align: center; padding: 0.8em; border-radius: 4px; background: ",
+                           octid_colors$bg_light_blue, ";"),
+            div(style = paste0("font-size: 1.6em; font-weight: 700; color: ", octid_colors$primary, ";"),
+                scales::comma(cache_meta$total_trial_count)),
+            div(style = "font-size: 0.78em; color: #605E5C;", "Total trials")),
+        
+        div(style = paste0("text-align: center; padding: 0.8em; border-radius: 4px; background: ",
+                           octid_colors$bg_light_blue, ";"),
+            div(style = paste0("font-size: 1.6em; font-weight: 700; color: ", octid_colors$primary, ";"),
+                scales::comma(cache_meta$oncology_trial_count)),
+            div(style = "font-size: 0.78em; color: #605E5C;", "Oncology")),
+        
+        div(style = paste0("text-align: center; padding: 0.8em; border-radius: 4px; background: ",
+                           octid_colors$bg_light_purple, ";"),
+            div(style = paste0("font-size: 1.6em; font-weight: 700; color: ", octid_colors$rare_disease, ";"),
+                scales::comma(cache_meta$rare_disease_count)),
+            div(style = "font-size: 0.78em; color: #605E5C;", "Rare Disease")),
+        
+        div(style = paste0("text-align: center; padding: 0.8em; border-radius: 4px; background: ",
+                           octid_colors$bg_light_blue, ";"),
+            div(style = paste0("font-size: 1.6em; font-weight: 700; color: ", octid_colors$accent, ";"),
+                paste0(cache_meta$endpoint_coverage_pct, "%")),
+            div(style = "font-size: 0.78em; color: #605E5C;", "Endpoint coverage"))
+      )
+    })
+    
+    # ── outputOptions — CSS tab fix ───────────────────────────────────────────
+    outputOptions(output, "header_cache_badge", suspendWhenHidden = FALSE)
+    outputOptions(output, "cache_scope_stats",  suspendWhenHidden = FALSE)
+    
   })
 }
