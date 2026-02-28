@@ -8,6 +8,11 @@ renv/python/
 rsconnect/
 *.qmd
 *.Rmd
-LESSONS_LEARNED.md
-HANDOFF_DOCUMENT.md
+LESSONS_LEARNED*.md
+HANDOFF*.md
+screenshots/
+data-pipeline/
+scripts/
+docs/
+00_setup*.R
 
