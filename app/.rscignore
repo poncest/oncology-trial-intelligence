@@ -14,5 +14,6 @@ screenshots/
 data-pipeline/
 scripts/
 docs/
+screenshots/
 00_setup*.R
 
