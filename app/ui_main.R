@@ -152,7 +152,18 @@ ui <- semanticPage(
   # --- Tab switching JS -------------------------------------------------------
   tags$script(HTML("
     $(document).ready(function() {
+      // Initialize Semantic UI tabs
       $('.tabular.menu .item').tab();
+      
+      // Re-activate the default active tab after Shiny renders outputs.
+      // Without this delay, Shiny outputs render into a tab Semantic UI
+      // considers 'hidden', so suspendWhenHidden logic never releases them.
+      setTimeout(function() {
+        var activeTab = $('.tabular.menu .item.active').attr('data-tab');
+        if (activeTab) {
+          $('.tabular.menu .item').tab('change tab', activeTab);
+        }
+      }, 500);
     });
   "))
 )
