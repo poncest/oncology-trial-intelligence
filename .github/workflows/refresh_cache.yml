@@ -51,6 +51,8 @@ jobs:
           tag_name: cache-latest
           name: "Cache Latest"
           body: "Auto-updated cache from ClinicalTrials.gov API v2"
+          prerelease: false
+          make_latest: true
           files: |
             app/data/processed/cache_overview.rds
             app/data/processed/cache_meta.json
