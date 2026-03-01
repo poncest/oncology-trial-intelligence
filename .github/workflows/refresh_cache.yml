@@ -8,6 +8,9 @@ on:
     - cron: "0 2 * * *"   # 02:00 UTC daily
   workflow_dispatch:        # Manual trigger for testing
 
+permissions:
+  contents: write   # Required to create/update releases and upload assets
+
 jobs:
   refresh:
     runs-on: ubuntu-latest

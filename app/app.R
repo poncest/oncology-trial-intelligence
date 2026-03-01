@@ -17,8 +17,8 @@ source("modules/mod_site_networks.R")
 source("modules/mod_methods.R")
 
 # UI & Server (sourced after global.R + modules)
-source("ui.R")
-source("server.R")
+source("ui_main.R")
+source("server_main.R")
 
 shinyApp(ui = ui, server = server)
 

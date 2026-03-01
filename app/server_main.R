@@ -4,13 +4,6 @@
 
 server <- function(input, output, session) {
   
-  # Force Semantic UI tab initialization after Shiny flush
-  # Required for outputOptions(suspendWhenHidden = FALSE) to take effect
-  # on CSS-based tabs — see Launch Curve Forecaster lessons learned
-  session$onFlushed(function() {
-    shinyjs::runjs("$('.tabular.menu .item').tab();")
-  }, once = TRUE)
-  
   # Executive Brief — passes full cache; module filters internally by TA
   executive_brief_server("executive_brief", cache = app_cache)
   
