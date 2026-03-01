@@ -300,7 +300,7 @@ cat(glue::glue("   Total               : {nrow(cache)}\n\n"))
 cat("💾 Writing cache files...\n")
 
 # Ensure output directory exists
-fs::dir_create(dirname(CONFIG$out_rds))
+dir.create(dirname(CONFIG$out_rds), recursive = TRUE, showWarnings = FALSE)
 
 # .rds
 saveRDS(cache, CONFIG$out_rds)

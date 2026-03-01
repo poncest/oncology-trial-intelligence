@@ -133,23 +133,23 @@ site_networks_ui <- function(id) {
           class = "ui segment",
           style = "padding: 1.5em;",
           div(
-            style = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 1em;",
+            style = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6em;",
             div(
               h3(style = paste0("color: ", octid_colors$primary_dark, "; margin: 0;"),
                  "Trial Activity by Country"),
               div(style = "color: #605E5C; font-size: 0.9em;",
-                  "Bubble size = trial count · click a bubble for details"),
-              div(
-                style = paste0(
-                  "margin-top: 0.6em; padding: 0.5em 0.8em; border-radius: 4px; ",
-                  "background: #FFF4CE; border-left: 3px solid #CA5010; ",
-                  "font-size: 0.82em; color: #605E5C;"
-                ),
-                icon("exclamation triangle", style = "color: #CA5010;"),
-                " Registry site counts reflect trial registration data, not enrollment intensity. ",
-                "Number of sites does not indicate enrollment success or site activation rates."
-              )
+                  "Bubble size = trial count · click a bubble for details")
             )
+          ),
+          div(
+            style = paste0(
+              "margin-bottom: 0.8em; padding: 0.5em 0.8em; border-radius: 4px; ",
+              "background: #FFF4CE; border-left: 3px solid #CA5010; ",
+              "font-size: 0.82em; color: #605E5C;"
+            ),
+            icon("exclamation triangle", style = "color: #CA5010;"),
+            " Registry site counts reflect trial registration data, not enrollment intensity. ",
+            "Number of sites does not indicate enrollment success or site activation rates."
           ),
           leafletOutput(ns("country_map"), height = "420px")
         )
@@ -444,12 +444,7 @@ site_networks_server <- function(id, cache) {
       )
       
       leaflet(cf_geo) |>
-        addProviderTiles(
-          "CartoDB.Positron",
-          options = providerTileOptions(minZoom = 1, maxZoom = 8)
-        ) |>
-      
-      # addTiles() |>
+        addTiles() |>
         
         setView(lng = 10, lat = 30, zoom = 2) |>
         addCircleMarkers(

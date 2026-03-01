@@ -112,6 +112,11 @@ load_cache <- function(app_dir = ".") {
       tmp <- tempfile(fileext = ".rds")
       download.file(remote_rds_url, tmp, quiet = TRUE, mode = "wb")
       data <- readRDS(tmp)
+      # Update local meta so cache_meta stays in sync with downloaded data
+      tryCatch(
+        jsonlite::write_json(remote_meta, local_meta, auto_unbox = TRUE),
+        error = function(e) NULL
+      )
       message(glue("[Cache] Remote cache loaded successfully ({remote_date})."))
       data
     } else {
@@ -152,6 +157,9 @@ app_cache <- load_cache()
 message(glue("[OCTID] Cache ready: {nrow(app_cache)} trials ({format(Sys.time(), '%H:%M:%S')})"))
 
 # --- Cache metadata (for UI freshness banner) --------------------------------
+# Reads local cache_meta.json — kept in sync with downloaded data by load_cache()
+# when a fresh remote cache is pulled. Local-only read avoids startup network failures.
+
 load_cache_meta <- function(app_dir = ".") {
   local_meta <- file.path(app_dir, "data", "processed", "cache_meta.json")
   if (file.exists(local_meta)) {

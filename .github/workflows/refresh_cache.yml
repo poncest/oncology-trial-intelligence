@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          Rscript -e "pak::pak(c('httr2', 'dplyr', 'jsonlite', 'purrr', 'stringr', 'lubridate'))"
+          Rscript -e "pak::pak(c('httr2', 'dplyr', 'jsonlite', 'purrr', 'stringr', 'lubridate', 'glue'))"
 
       - name: Verify httr2 installed
         run: Rscript -e "library(httr2); cat('httr2 version:', as.character(packageVersion('httr2')), '\n')"
