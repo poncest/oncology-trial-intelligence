@@ -155,15 +155,16 @@ ui <- semanticPage(
       // Initialize Semantic UI tabs
       $('.tabular.menu .item').tab();
       
-      // Re-activate the default active tab after Shiny renders outputs.
-      // Without this delay, Shiny outputs render into a tab Semantic UI
-      // considers 'hidden', so suspendWhenHidden logic never releases them.
-      setTimeout(function() {
+      // Re-trigger active tab AFTER Shiny websocket connects and outputs render.
+      // document.ready fires before Shiny is ready — shiny:connected is the
+      // correct hook. Without this, Executive Brief (active on load) never
+      // receives a Semantic UI visibility event, so outputs stay suspended.
+      $(document).on('shiny:connected', function() {
         var activeTab = $('.tabular.menu .item.active').attr('data-tab');
         if (activeTab) {
           $('.tabular.menu .item').tab('change tab', activeTab);
         }
-      }, 500);
+      });
     });
   "))
 )
